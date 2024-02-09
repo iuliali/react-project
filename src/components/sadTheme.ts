@@ -1,11 +1,15 @@
 import { extendTheme } from '@chakra-ui/react'
 
 const sadTheme = extendTheme({
+    fonts: {
+      myFont1: "Dancing Script",
+      myFont2: "Roboto",
+    },
     layerStyles: {
       cool:{
         bgGradient :'linear(to-r, blue.200, green.900)'},
         navLink: {
-            bgGradient :'linear(to-r, blue.200, green.900)',
+            bgGradient :'linear(to-r, blue.100, purple.200)',
             fontWeight: 'bold',
             borderRadius: 'md',
             _focus: {
@@ -15,16 +19,16 @@ const sadTheme = extendTheme({
       },
     colors: {
       new: {
-        50: '#e4e6ff',
-        100: '#b3b8ff',
-        200: '#8388fc',
-        300: '#5358f9',
-        400: '#2329f6',
-        500: '#0d0edc',
-        600: '#090aa4',
-        700: '#060574',
-        800: '#020146',
-        900: '#00001f',
+        50: '#806d67',
+        100: '#54635e',
+        200: '#3d4a61',
+        300: '#4d3d61',
+        400: '#613d60',
+        500: '#5c2c3f',
+        600: '#221c36',
+        700: '#2d3b32',
+        800: '#d1b547',
+        900: '#b0a9d6',
       },
     },
     })

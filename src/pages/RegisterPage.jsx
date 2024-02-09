@@ -10,12 +10,12 @@ import {
   import React, { useState } from "react";
   import { useSelector } from "react-redux";
   import { Navigate, useNavigate } from "react-router-dom";
-  import { createUserWithEmailAndPassword } from "firebase/auth";
+  import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
   import { auth } from "../lib/firebase";
   
   const RegisterPage = () => {
     const navigate = useNavigate();
-  
+    const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -33,6 +33,10 @@ import {
           email,
           password
         );
+
+        await updateProfile(userCredential.user, {
+          displayName: userName,
+        });
         navigate("/login");
       } catch (error) {
         console.error(error.message);
@@ -50,6 +54,18 @@ import {
           borderRadius="lg"
         >
           <Heading>Register</Heading>
+          <FormControl>
+            <FormLabel>Username</FormLabel>
+            <Input
+              value={userName}
+              onChange={(event) => {
+                setUserName(event.target.value);
+                setError("");
+              }}
+              bg="white"
+              type="text"
+            />
+          </FormControl>
           <FormControl>
             <FormLabel>Email</FormLabel>
             <Input

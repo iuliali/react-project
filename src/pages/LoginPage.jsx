@@ -17,7 +17,6 @@ import {
   const LoginPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-  
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -32,6 +31,7 @@ import {
       try {
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(user);
+        dispatch(setIsAuthenticated(true));
       } catch (error) {
         console.error(error.message);
         setError(error.message);

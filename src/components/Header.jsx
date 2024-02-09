@@ -1,4 +1,4 @@
-import { Box, Heading, useColorMode } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import ThemeButton from "./ThemeButton";
 
 const Header = () => {
