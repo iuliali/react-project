@@ -34,20 +34,22 @@ import {
         dispatch(setIsAuthenticated(true));
       } catch (error) {
         console.error(error.message);
-        setError(error.message);
+        setError("Invalid email or password");
       }
     };
   
     return (
       <Center flexDirection="column" height="100vh">
+        <Heading p={5}> welcome back to your journals </Heading>
         <Center
           flexDirection="column"
+          width={{ base: "100%", md: "500px" }}
           p="20"
           bg="blue.100"
           boxShadow="2"
           borderRadius="lg"
         >
-          <Heading>Login</Heading>
+          <Heading alignContent="center">Login to access them</Heading>
           <FormControl>
             <FormLabel>Email</FormLabel>
             <Input

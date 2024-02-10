@@ -8,7 +8,7 @@ const ColorPicker: FC <{value: string| undefined, onChange: (value:string) => vo
     const selectedColor = value == null || value.length == 0 ? colors[0] : value;
     return (
         <Box>
-            <HStack>
+            <HStack justifyContent="center">
                 {colors.map((color) => (
                     <Box id="color"
                         key={color}

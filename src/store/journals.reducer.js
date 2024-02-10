@@ -11,10 +11,27 @@ const journalSlice = createSlice({
     reducers: {
         setPages: (state, action) => {
             state.pages[action.payload.id] = action.payload.pages;
+            state.pages[action.payload.id].sort((a, b) => b.date - a.date);
+        },
+
+        clearPages: (state) => {
+            state.pages = {};
         },
 
         addPage: (state, action) => {
             state.pages[action.payload.id].push(action.payload.page);
+            state.pages[action.payload.id].sort((a, b) => b.date - a.date);
+        },
+
+        deletePage: (state, action) => {
+            state.pages[action.payload.id] = state.pages[action.payload.id].filter(page => page.id !== action.payload.pageId);
+        },
+
+        updatePage: (state, action) => {
+            const { id:id, page:updatedPage } = action.payload;
+            state.pages[id] = state.pages[id].filter(page => page.id !== updatedPage.id);
+            state.pages[id].push(updatedPage);
+            state.pages[id].sort((a, b) => b.date - a.date);
         },
 
         setJournals: (state, action) => {
@@ -40,6 +57,7 @@ const journalSlice = createSlice({
     },
 });
 
-export const { setPages, addPage, setJournals, addJournal, removeJournal, updateJournal } = journalSlice.actions;
+export const { setPages, addPage, setJournals, addJournal, removeJournal, clearPages,
+     updateJournal, deletePage, updatePage } = journalSlice.actions;
 
 export default journalSlice.reducer;

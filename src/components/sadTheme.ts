@@ -2,7 +2,7 @@ import { extendTheme } from '@chakra-ui/react'
 
 const sadTheme = extendTheme({
     fonts: {
-      myFont1: "Dancing Script",
+      heading: "Dancing Script",
       myFont2: "Roboto",
     },
     layerStyles: {

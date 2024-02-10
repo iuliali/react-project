@@ -5,9 +5,9 @@ import "../index.css";
 
 const Layout = ({ children }) => {
   return (
-    <Box layerStyle={'cool'} position="relative" minH ="100vh" minW="100vw" >
-      <Header />
+    <Box layerStyle={'cool'} position="relative" height ="100%" minW="100vw" minH="100vh">
       <Outlet />
+      <Header />
     </Box>
   );
 };

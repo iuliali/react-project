@@ -13,7 +13,7 @@ const authSlice = createSlice({
       state.user = {
         id: auth.currentUser.uid,
         email: auth.currentUser.email,
-        displayName: auth.currentUser.displayName
+        displayName: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
       };
     },
     logout: (state) => {

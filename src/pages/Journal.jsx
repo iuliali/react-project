@@ -1,12 +1,12 @@
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { db } from "../lib/firebase";
 import { getDoc, getDocs, doc, collection } from "firebase/firestore";
-import JournalPage from "../components/JournalPage";
-import { Box, GridItem, Divider , Grid, AbsoluteCenter, Spacer} from '@chakra-ui/react';
+import { Box, GridItem, Divider , Grid, AbsoluteCenter, Spacer, Center} from '@chakra-ui/react';
 import CreateJournalPage from "../components/CreateJournalPageForm";
 import { useSelector, useDispatch } from "react-redux";
 import {addJournal, setPages} from "../store/journals.reducer";
+import JournalPageDisplay from "../components/JournalPageDisplay";
 
 const Journal = () => {
     const params = useParams();
@@ -48,7 +48,7 @@ const Journal = () => {
                         title: doc.data().title,
                         content: doc.data().content,
                         color: doc.data().color,
-                        date: doc.data().date
+                        date: new Date(doc.data().date.seconds * 1000)
                     }
                 ));
                 
@@ -68,26 +68,37 @@ const Journal = () => {
         <Box ml="10vw" mr="10vw">
             <Box position='relative' padding='100'>
                 <Divider />
-                <AbsoluteCenter bg='white' px='10' fontSize={40}>
+                <AbsoluteCenter bg='white' px='10' fontSize={40} borderRadius="md">
                     {journal.title}
                 </AbsoluteCenter>
 
              </Box>
-             <Spacer />
+
+        {/* <Center p={10}>
+            <CreateJournalPage journalId={journalId} /> 
+        </Center>
+
+        <Spacer /> */}
 
         <Grid templateColumns='repeat(2, 1fr)' gap={100}>
+            <GridItem w='100%' h='100%' height='400px' minW="500px" >
+                <Box >
+                    <CreateJournalPage journalId={journalId} /> 
+                </Box>
+            </GridItem>
             {pages.map((page) => (
-                <GridItem w='100%' h='100%' bg='' key={page.id} >
-                    <JournalPage page={page}>    </JournalPage>
+                <GridItem w='100%' h='100%' bg='' key={page.id} height="400px" minW="500px" >
+                <Box> 
+                    <JournalPageDisplay page={page} journalId={journalId} inJournal={true}>    </JournalPageDisplay>
+                </Box>
                 </GridItem>
             ))
             }
+             
         </Grid>
+        <br />
         <Divider />
-
-        <CreateJournalPage journalId={journalId} /> 
         </Box>
-
 
     );
 };

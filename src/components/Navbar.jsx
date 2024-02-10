@@ -7,11 +7,15 @@ import NavElement  from "./NavElement";
 const Navbar = () => {
   return (
     <Flex>
+    <Box ml="0vw" w="100vw" mt="0vh" >
+      <Outlet />  
+    </Box>
     <Box h="100vh" w="10vw" position="fixed">
       <HStack spacing="24px" align="start" p={5}>
         <NavElement to="/" name="Home" />
         <NavElement to="/journals" name="Journals" />
         <NavElement to="/create-journal-page" name="Add page" />
+        <NavElement to="/mood-tracker" name="Mood Tracker" />
         <Box>
           <Button
             colorScheme="red"
@@ -24,9 +28,6 @@ const Navbar = () => {
           </Button>
         </Box>
       </HStack>
-    </Box>
-    <Box ml="0vw" w="100vw" mt="10vh" >
-      <Outlet />  
     </Box>
     </Flex>
   );

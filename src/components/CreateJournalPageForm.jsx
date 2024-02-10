@@ -1,39 +1,102 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Heading, FormControl, 
-    FormLabel, Input, Textarea, Button, Select } from '@chakra-ui/react';
-import { addDoc, collection, getDocs, getDoc , query, where} from "firebase/firestore";
+    FormLabel, Input, Textarea, Button, Select, Text } from '@chakra-ui/react';
+import { addDoc, collection, getDocs , query, updateDoc, where, doc} from "firebase/firestore";
 import { db, auth } from "../lib/firebase";
 import { useNavigate } from 'react-router-dom';
 import ColorPicker from './ColorPicker';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPage, setJournals } from '../store/journals.reducer';
 import { inverseColor } from '../components/util';
+import { updatePage } from '../store/journals.reducer';
+import { set } from 'date-fns';
 
 const CreateJournalPage = (props) => {
+    const edit = props.edit;
+    const page = props.page;
     const journalId = props.journalId;
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+    const [title, setTitle] = useState(page ? page.title : "");
+    const [content, setContent] = useState( page ? page.content : "");
     const [journal, setJournal] = useState(journalId);
+    const [error, setError] = useState("");
     const journalsRef = collection(db, 'journals');
-    const [color, setColor] = useState("");
+    const [color, setColor] = useState( page ? page.color : "");
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const journals = useSelector((state) => state.journals.journals ?? []) ;
-    
+
     const handleChangeJournal = (e) => {
         console.log(e.target.value);
         setJournal(e.target.value);
     }
+
+    const validateTitle = (title) => {
+        if (title.length > 50) {
+            setError("Title is too long");
+            return false;
+       } else {
+              if (title.length < 5) {
+                setError("Title is too short");
+                return false;
+              }
+        }
+        return true;
+    }
+
+    const validateContent = (content) => {
+        if (content === "") {
+            setError("Content cannot be empty");
+            return false;
+        }
+        if (content.length > 1000) {
+            setError("Content is too long");
+            return false;
+        } else {
+            if (content.length < 50) {
+                setError("Content is too short to be a journal entry")
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const handleTitleChange = (e) => {
+        setTitle(e.target.value);
+        if (validateTitle(e.target.value)) {
+            setError("");
+        }
+    }
+
+    const handleContentChange = (e) => {
+        setContent(e.target.value);
+        if (validateContent(e.target.value)) {
+            setError("");
+        }
+    }
+
+
     const handleSubmit = async (e) => {
         console.log('submitting')
-
-        if (!title || !content || !color || !journal) {
+        if (validateTitle(title) && validateContent(content)) {
+            if (color == "") {
+                setError("Please select a color");
+                return;
+            } else {
+                setError("");
+            }
+        } else {
             return;
         }
+            
+        console.log(error);
+        if (error || !journal || !title || !content || !color) {
+            return;
+        }
+
         const id = journal;
         const path = `journals/${id}/pages`;
         const journalPagesRef = collection(db, path);
-        const page = {
+        const newOrEditedPage = {
             date: new Date(),
             title: title,
             content: content,
@@ -42,12 +105,24 @@ const CreateJournalPage = (props) => {
                 name: auth.currentUser.displayName || auth.currentUser.email, 
                 id: auth.currentUser.uid
             }};
+        console.log(newOrEditedPage);
 
-        const {id:newPage} = await addDoc(journalPagesRef, page);
-       
-        dispatch(addPage({id:journal, page: page}));
-        console.log(newPage);
-
+        if (edit) {
+            // Update page
+            const pageRef = doc(db, `journals/${journal}/pages/${page.id}`);
+            newOrEditedPage.id = page.id;
+            try{
+                await updateDoc(pageRef, newOrEditedPage);
+            } catch (error) {
+                console.error('Error updating page:', error);
+            }
+            dispatch(updatePage({id:journal, page: newOrEditedPage}));
+            navigate(-1);
+            return;
+        }
+        const addedPage = await addDoc(journalPagesRef, newOrEditedPage);
+        newOrEditedPage.id = addedPage.id;
+        dispatch(addPage({id:journal, page: newOrEditedPage}));
         setTitle("");
         setContent("");
         setColor("");
@@ -75,11 +150,12 @@ const CreateJournalPage = (props) => {
     }, []);
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-            <Box bg={color} 
+        <Box display="flex" justifyContent={journalId == null ? "center": ""} alignItems={journalId == null ? "center": ""} >
+            <Box bg={color} minW="500px"
             color={inverseColor(color)} 
-            borderRadius="md" p={4}>
-                <Heading justifyContent="center"> new journal page </Heading>
+            borderRadius="md" p={journalId == null ? 200 : 4}>
+                {!edit && <Heading justifyContent="center"> new journal page </Heading>}
+                {edit && <Heading justifyContent="center"> edit journal page </Heading>}
                 <br />
                     <FormControl>
                         <FormLabel htmlFor="title"></FormLabel>
@@ -88,7 +164,7 @@ const CreateJournalPage = (props) => {
                             type="text"
                             id="title"
                             value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            onChange={handleTitleChange}
                             borderColor={inverseColor(color)} 
                         />
                     </FormControl>
@@ -98,7 +174,7 @@ const CreateJournalPage = (props) => {
                             placeholder='Write your thoughts here...'
                             id="content"
                             value={content}
-                            onChange={(e) => setContent(e.target.value)}
+                            onChange={handleContentChange}
                             borderColor={inverseColor(color)}
                         ></Textarea>
                     </FormControl>
@@ -117,8 +193,11 @@ const CreateJournalPage = (props) => {
                     </Select>
                     </FormControl>  }
                     <br />
+                    {error && <Text align="center" color="red">{error}</Text>}
+                    <br />
                     <Box display="flex" justifyContent="center"> 
-                        <Button onClick={handleSubmit}>Add Journal Page</Button>
+                        {!edit && <Button onClick={handleSubmit}>Add Journal Page</Button>}
+                        {edit && <Button onClick={handleSubmit}>Edit Journal Page</Button>}
                     </Box> 
 
             </Box>

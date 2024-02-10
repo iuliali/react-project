@@ -38,7 +38,7 @@ const Journals = () => {
         <Box  ml="10vw" mr="10vw">
             <Box position='relative' padding='100'>
                 <Divider />
-                <AbsoluteCenter bg='white' px='10' fontSize={40}>
+                <AbsoluteCenter bg='white' px='10' fontSize={40} borderRadius={"md"}>
                     My Journals
                 </AbsoluteCenter>
              </Box>

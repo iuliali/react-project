@@ -22,7 +22,10 @@ import Layout from "./pages/Layout";
 import CreateJournalPage from "./components/CreateJournalPageForm";
 import Journals from "./pages/Journals";
 import Journal from "./pages/Journal";
-import { setJournals, setPages } from "./store/journals.reducer";
+import { clearPages, setJournals, setPages } from "./store/journals.reducer";
+import MoodPage from "./pages/MoodPage";
+import { clearMood } from "./store/moodtracker.reducer";
+import JournalPage from "./pages/JournalPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +39,9 @@ const router = createBrowserRouter(
                 <Route path="/create-journal-page" element={<CreateJournalPage />} />
                 <Route path="/journal/:id" element={<Journal />} />
                 <Route path="/journals" element={<Journals />} />
+                <Route path="/mood-tracker" element={<MoodPage />} />
+                <Route path="/journal/:journalId/page/:pageId" element={<JournalPage edit={false} />} />
+                <Route path="/journal/:journalId/page/:pageId/edit" element={<JournalPage edit={true} />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
             </Route>
@@ -53,7 +59,8 @@ function App() {
       } else {
         dispatch(logout());
         dispatch(setJournals([]));
-        dispatch(setPages({}));
+        dispatch(clearPages());
+        dispatch(clearMood());
       }
     });
 
