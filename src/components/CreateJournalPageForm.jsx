@@ -150,7 +150,7 @@ const CreateJournalPage = (props) => {
     }, []);
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" mt={journal==null && "15vh"}>
+        <Box display="flex" justifyContent="center" alignItems="center" mt={journalId==null && "15vh"}>
             <Box bg={color} minW="500px" maxH="80vh"
             color={inverseColor(color)} 
             borderRadius="md" p={journalId == null ? 100 : 4}>
