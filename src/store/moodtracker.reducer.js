@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const moodSlice = createSlice({
     name: 'mood',
     initialState: {
-        currentMood: null,
+        currentMood: {},
         moodHistory: [],
     },
     reducers: {

@@ -1,6 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
-import { Box, Text, Icon } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { FaSmile, FaMeh, FaFrown } from 'react-icons/fa';
 
 const numberToMoodIcon = number => {
@@ -12,7 +12,7 @@ const numberToMoodIcon = number => {
         case 3:
         return <FaSmile />;
         default:
-        return "-";
+        return "no mood logged";
     }
 };
 const CustomTooltip = props => {

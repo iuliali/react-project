@@ -19,6 +19,9 @@ const journalSlice = createSlice({
         },
 
         addPage: (state, action) => {
+            if (!state.pages[action.payload.id]) {
+                state.pages[action.payload.id] = [];
+            }
             state.pages[action.payload.id].push(action.payload.page);
             state.pages[action.payload.id].sort((a, b) => b.date - a.date);
         },

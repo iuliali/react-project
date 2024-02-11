@@ -150,10 +150,10 @@ const CreateJournalPage = (props) => {
     }, []);
 
     return (
-        <Box display="flex" justifyContent={journalId == null ? "center": ""} alignItems={journalId == null ? "center": ""} >
-            <Box bg={color} minW="500px"
+        <Box display="flex" justifyContent="center" alignItems="center" mt={journal==null && "15vh"}>
+            <Box bg={color} minW="500px" maxH="80vh"
             color={inverseColor(color)} 
-            borderRadius="md" p={journalId == null ? 200 : 4}>
+            borderRadius="md" p={journalId == null ? 100 : 4}>
                 {!edit && <Heading justifyContent="center"> new journal page </Heading>}
                 {edit && <Heading justifyContent="center"> edit journal page </Heading>}
                 <br />

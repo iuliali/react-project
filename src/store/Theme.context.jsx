@@ -18,7 +18,7 @@ export const ThemeProvider = ({ children }) => {
     const nextThemeIndex = (currentThemeIndex + 1) % themes.length;
     const nextTheme = themes[nextThemeIndex];
     setTheme(nextTheme);
-    console.log(theme);
+    // console.log(theme);
   };
 
   return (

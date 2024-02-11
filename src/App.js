@@ -33,9 +33,10 @@ const router = createBrowserRouter(
      <Route element={<Layout />}>
             <Route path="/login" element={<LoginPage/>} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route element={<ProtectedRoute redirectTo="/login" />}>
+            <Route path="/welcome" element={<HomePage isPrivate={false}  />} />
+            <Route element={<ProtectedRoute redirectTo="/welcome" />}>
               <Route element={<Navbar />}>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<HomePage isPrivate={true} />} />
                 <Route path="/create-journal-page" element={<CreateJournalPage />} />
                 <Route path="/journal/:id" element={<Journal />} />
                 <Route path="/journals" element={<Journals />} />

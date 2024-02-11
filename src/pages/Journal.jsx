@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { db } from "../lib/firebase";
 import { getDoc, getDocs, doc, collection } from "firebase/firestore";
-import { Box, GridItem, Divider , Grid, AbsoluteCenter, Spacer, Center} from '@chakra-ui/react';
+import { Box, GridItem, Divider , Grid, AbsoluteCenter, Text} from '@chakra-ui/react';
 import CreateJournalPage from "../components/CreateJournalPageForm";
 import { useSelector, useDispatch } from "react-redux";
 import {addJournal, setPages} from "../store/journals.reducer";
@@ -74,11 +74,6 @@ const Journal = () => {
 
              </Box>
 
-        {/* <Center p={10}>
-            <CreateJournalPage journalId={journalId} /> 
-        </Center>
-
-        <Spacer /> */}
 
         <Grid templateColumns='repeat(2, 1fr)' gap={100}>
             <GridItem w='100%' h='100%' height='400px' minW="500px" >
