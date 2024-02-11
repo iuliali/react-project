@@ -17,13 +17,14 @@ const CreateJournalPage = (props) => {
     const journalId = props.journalId;
     const [title, setTitle] = useState(page ? page.title : "");
     const [content, setContent] = useState( page ? page.content : "");
-    const [journal, setJournal] = useState(journalId);
     const [error, setError] = useState("");
     const journalsRef = collection(db, 'journals');
     const [color, setColor] = useState( page ? page.color : "");
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const journals = useSelector((state) => state.journals.journals ?? []) ;
+    const [journal, setJournal] = useState(journalId ?? (journals.length > 0 ? journals[0].id : null));
+
 
     const handleChangeJournal = (e) => {
         console.log(e.target.value);
@@ -90,6 +91,7 @@ const CreateJournalPage = (props) => {
             
         console.log(error);
         if (error || !journal || !title || !content || !color) {
+            console.log(journals);
             return;
         }
 
@@ -144,9 +146,7 @@ const CreateJournalPage = (props) => {
                 console.error('Error fetching journals:', error);
             }
         };
-        if (journals == []) {
-            fetchJournals();
-        }
+        fetchJournals();
     }, []);
 
     return (
@@ -181,9 +181,8 @@ const CreateJournalPage = (props) => {
                     <br />
                     
                     <ColorPicker value={color} onChange={setColor}></ColorPicker>
-                    
                     <br />
-                    { journalId == null && <FormControl>
+                    { journalId == null &&  <FormControl>
                     <FormLabel htmlFor="journal"> Journal: </FormLabel>
                     <Select spacing={3} onChange={handleChangeJournal} borderColor={inverseColor(color)} >
                         {journals.map((journal) => (
@@ -193,6 +192,8 @@ const CreateJournalPage = (props) => {
                     </Select>
                     </FormControl>  }
                     <br />
+                    {journalId == null && journals.length == 0 && <Text align="center" color="red">You need to create a journal first</Text>}
+
                     {error && <Text align="center" color="red">{error}</Text>}
                     <br />
                     <Box display="flex" justifyContent="center"> 

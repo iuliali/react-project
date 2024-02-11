@@ -8,7 +8,6 @@ const moodSlice = createSlice({
     },
     reducers: {
         setMood: (state, action) => {
-            console.log(state.currentMood.date.toDateString() == action.payload.date.toDateString());
             if (state.currentMood && state.currentMood.date &&
                 state.currentMood.date.toDateString() == action.payload.date.toDateString()){ 
                 state.moodHistory.pop(); 
