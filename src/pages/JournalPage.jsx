@@ -9,6 +9,7 @@ import { addPage } from "../store/journals.reducer";
 import JournalPageDisplay from "../components/JournalPageDisplay";
 import { useParams } from "react-router-dom";
 import CreateJournalPageForm from "../components/CreateJournalPageForm";
+import ReturnButton from "../components/ReturnButton";
 
 const JournalPage = (props) => {
     const edit = props.edit;
@@ -42,6 +43,7 @@ const JournalPage = (props) => {
 
     return (
         <AbsoluteCenter p={4} minH="50vh" minW="60vw">
+                <ReturnButton navigateTo={`/journal/${journalId}`} text="Go back to journal" position="relative" mt="15vh"/>
                 {!edit && <JournalPageDisplay page={page} journalId={journalId} inJournal={false}/>}
                 {edit && <CreateJournalPageForm journalId={journalId} page={page} edit={true}/>}
         </AbsoluteCenter>

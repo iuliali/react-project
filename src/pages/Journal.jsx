@@ -2,11 +2,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { db } from "../lib/firebase";
 import { getDoc, getDocs, doc, collection } from "firebase/firestore";
-import { Box, GridItem, Divider , Grid, AbsoluteCenter, Text} from '@chakra-ui/react';
+import { Box, GridItem, Divider , Grid, AbsoluteCenter, Text, Spacer} from '@chakra-ui/react';
 import CreateJournalPage from "../components/CreateJournalPageForm";
 import { useSelector, useDispatch } from "react-redux";
 import {addJournal, setPages} from "../store/journals.reducer";
 import JournalPageDisplay from "../components/JournalPageDisplay";
+import ReturnButton from "../components/ReturnButton";
 
 const Journal = () => {
     const params = useParams();
@@ -67,6 +68,7 @@ const Journal = () => {
     return (
         <Box ml="10vw" mr="10vw">
             <Box position='relative' padding='100'>
+            <ReturnButton navigateTo="/journals" text="Go to all journals" position="relative" mt="15vh"/>
                 <Divider />
                 <AbsoluteCenter bg='white' px='10' fontSize={40} borderRadius="md">
                     {journal.title}
@@ -91,7 +93,7 @@ const Journal = () => {
             }
              
         </Grid>
-        <br />
+        <Spacer minH="100px"/>
         <Divider />
         </Box>
 

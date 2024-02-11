@@ -1,4 +1,4 @@
-import { Center, HStack, IconButton } from '@chakra-ui/react';
+import { Center, HStack, IconButton, Box } from '@chakra-ui/react';
 import { FaSmile, FaMeh, FaFrown } from 'react-icons/fa';
 import { FC } from 'react';
 

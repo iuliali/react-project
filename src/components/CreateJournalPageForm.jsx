@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPage, setJournals } from '../store/journals.reducer';
 import { inverseColor } from '../components/util';
 import { updatePage } from '../store/journals.reducer';
-import { set } from 'date-fns';
+
 
 const CreateJournalPage = (props) => {
     const edit = props.edit;

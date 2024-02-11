@@ -32,11 +32,11 @@ const MoodPage = () => {
         const currentMonth = new Date().getMonth();
         const fetchMoods = async () => {
             console.log("fetching moods");
-            console.log(user);
             const q = query(moodCollectionRef, where('user', '==', user.id));
             const response = await getDocs(q);
             const data = response.docs.map((doc) => (
                 {
+                    id: doc.id,
                     date: new Date(doc.data().date.seconds * 1000),
                     mood: doc.data().mood,
                     user: doc.data().user
